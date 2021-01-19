@@ -1,13 +1,15 @@
 package com.company;
 
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) {
 	// write your code here
 
         Facility pornhub = new Facility("vlxx",0);
-        int userID = 1;
+        String  userID = UUID.randomUUID().toString();
         while (true) {
-            String customized_welcome_msg = String.format("Welcome to the facility booking system, user %d. Below are the options:",userID);
+            String customized_welcome_msg = String.format("Welcome to the facility booking system, user %s. Below are the options:",userID);
             String[] opts = {customized_welcome_msg,
                     "\t1. Query a facility",
                     "\t2. Book a facility",
@@ -30,10 +32,13 @@ public class Main {
                 case 2:
                     pornhub.book(userID);
                     break;
+                case 3:
+                    pornhub.showRecords();
+                    break;
                 default:
                     return;
             }
-            userID++;
+            userID = UUID.randomUUID().toString();
         }
     }
 }

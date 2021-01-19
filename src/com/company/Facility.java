@@ -1,9 +1,12 @@
 package com.company;
 
+import java.util.HashMap;
+
 public class Facility {
 
     int[][] availability;
     String name;
+    HashMap<String, int[]> Record;
     int ID;
 
     public Facility(String name,int ID) {
@@ -16,6 +19,7 @@ public class Facility {
         this.name = name;
         this.ID =ID;
         this.availability = new int[7][24];
+        this.Record = new HashMap<String, int[]>();
     }
 
     public boolean checkAvailability(int date, int time) {
@@ -53,7 +57,7 @@ public class Facility {
 
     }
 
-    public void book(int ID){
+    public void book(String UUID){
         System.out.println("For the day (0: Monday, 1: Tuesday, 2: Wednesday, 3: Thursday, 4: Friday, 5: Saturday, 6: Sunday): ");
         int date = utils.checkUserIntInput(0,6);
         System.out.println("For the start time: ");
@@ -61,8 +65,10 @@ public class Facility {
         System.out.println("For the end time: ");
         int endTime = utils.checkUserIntInput(0,23);
         for(int i= startTime; i<=endTime;i++) {
-            this.availability[date][i] = ID;
+            this.availability[date][i] = 1;
         }
+        System.out.println("MEOW");
+        this.Record.put(UUID,new int[]{startTime,endTime});
         queryAvailability();
     }
 
@@ -70,5 +76,10 @@ public class Facility {
 
 
     }
+    public void showRecords() {
 
+        for (String i :this.Record.keySet()) {
+            System.out.println("key: " + i + " value: " + this.Record.get(i));
+        }
+    }
 }
