@@ -36,4 +36,12 @@ public class utils {
         } while (i> stop || i < start);
         return i;
     }
+
+    public static String getBookingID(){
+        String prompt = "Please enter your booking ID String: ";
+        System.out.println(prompt);
+        s.nextLine();                      //clear stuff
+        String ans = s.nextLine();         //
+        return ans;
+    }
 }
