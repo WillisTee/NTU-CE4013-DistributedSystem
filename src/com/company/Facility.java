@@ -4,6 +4,10 @@ import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 
+/**
+ * The facility class that has availability array (7x24) and Record (track bookingID:Booking)
+ * Anytime it needs to input/output something, need to specify the utils driver
+ */
 public class Facility {
 
     int[][] availability;

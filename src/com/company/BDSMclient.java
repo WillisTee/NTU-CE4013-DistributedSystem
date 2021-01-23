@@ -5,6 +5,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/**
+ * This is the client class that gonna book the facility
+ */
 public class BDSMclient {
 
     public static void main(String[] args) {

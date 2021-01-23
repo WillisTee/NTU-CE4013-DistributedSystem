@@ -2,6 +2,12 @@ package com.company;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
+
+
+/**
+ * This is the multithreaded server. Each connection it found, it will hand off the socket to a worker runnable
+ * TODO: implement the synchronization here.
+ */
 public class BDMServer implements Runnable {
     protected int          serverPort   = 8080;
     protected ServerSocket serverSocket = null;

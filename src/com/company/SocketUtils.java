@@ -3,6 +3,9 @@ package com.company;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * This utils class provides input/output to and fro another socket connection
+ */
 public class SocketUtils implements Utils {
 
     InputStream input;

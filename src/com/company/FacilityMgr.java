@@ -2,6 +2,9 @@ package com.company;
 
 import java.util.HashMap;
 
+/**
+ * The singleton Facility Mgr to keep all instances of all facilities in one place for ALL clients
+ */
 public class FacilityMgr {
     private static FacilityMgr single_instance = null;
     public HashMap<String, Facility> FacilityRecords;

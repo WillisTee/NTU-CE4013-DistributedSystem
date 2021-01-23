@@ -2,6 +2,9 @@ package com.company;
 
 import java.util.Scanner;
 
+/**
+ * This class provides input/output to the terminal -- good for testing server functionality
+ */
 public class TerminalUtils implements Utils {
     public static Scanner s = new Scanner(System.in);
 

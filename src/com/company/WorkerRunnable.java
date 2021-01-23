@@ -6,7 +6,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.UUID;
 
-
+/**
+ * This is the what the server will execute for each thread it spawns.
+ */
 public class WorkerRunnable implements Runnable {
     protected Socket clientSocket = null;
     protected String serverText   = null;
