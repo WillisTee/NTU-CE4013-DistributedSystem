@@ -5,7 +5,10 @@ import java.util.Scanner;
 public class TerminalUtils implements Utils {
     public static Scanner s = new Scanner(System.in);
 
-
+    public String nextLine(){
+        String sc = s.nextLine();
+        return sc;
+    }
     public int checkUserIntInput(int lower, int upper ) {
         /**
          * This functions return an int value inclusive of upper and lower bound from user

@@ -13,39 +13,28 @@ public class BDSMclient {
 
         try (Socket socket = new Socket(hostname, port)) {
 
-            String s = "Welcome to the system. Type some shit";
+            Utils utils = new SocketUtils(socket);          //comm to server
+            Scanner sc = new Scanner(System.in);            //comm to user
+
+            String s = "Welcome to the system. Type some shit";     //welcome to user
             System.out.println(s);
-            Scanner sc = new Scanner(System.in);
 
-            InputStream input = socket.getInputStream();
-            InputStreamReader reader = new InputStreamReader(input);
-            OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
-            //Wait for user to type some shit
-            //sc.nextLine();
 
-            boolean receiving = true;
             while (true) {
 
-                //receive from server
-                char character;
-                StringBuilder data = new StringBuilder();
-                while(receiving) {
 
-                    while ((character = (char) reader.read()) != '\n') {
-                        data.append((char) character);
-                    }
-                    if (data.length() == 2 && (char) '.' == data.charAt(0)) {
-                        receiving = false;
-                    } else {
-                        System.out.println(data);
-                        data.setLength(0);
-                    }
+                //The server gonna dump some welcome message
+                String server_msg;
+                while(true) {
+                    server_msg = utils.nextLine();
+                    if (server_msg.equals(RRA.ACK))
+                        break;
+                    else
+                        System.out.println(server_msg);
                 }
-                receiving = true;
                 System.out.println("Reply to server: ");
                 String choice = sc.nextLine();
-                writer.println(choice);
+                utils.println(choice);
                 if (choice.equals("Quit"))
                     break;
             }

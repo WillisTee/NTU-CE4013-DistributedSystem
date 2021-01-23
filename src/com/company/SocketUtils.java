@@ -9,27 +9,83 @@ public class SocketUtils implements Utils {
     InputStreamReader reader ;
     OutputStream output;
     PrintWriter writer;
-    public SocketUtils(Socket clientSocket) throws IOException {
-        this.input  = clientSocket.getInputStream();
+    public SocketUtils(Socket socket) throws IOException {
+        this.input  = socket.getInputStream();
         this.reader = new InputStreamReader(input);
-        this.output = clientSocket.getOutputStream();
+        this.output = socket.getOutputStream();
         this.writer = new PrintWriter(output, true);
+    }
+    public String nextLine() {
+        char character = 0;
+        StringBuilder data = new StringBuilder();
+        while (true) {
+            try {
+                character = (char) reader.read();
+                if ( character == '\n' || character == '\r') break;
+                data.append(character);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        String s = data.toString();
+        return s;
+    }
+    
+    public int nextInt() {
+        String s;
+        do {
+            s = nextLine();
+        } while ((s.equals("") || s.equals("\n") || s.equals("\r")));
+        Integer a = Integer.valueOf(s);
+        return a;
     }
 
     public int checkUserIntInput(int lower, int upper) {
-        return 0;
+        /**
+         * This functions return an int value inclusive of upper and lower bound from user
+         */
+        int i;
+        int tries = 1;
+        String prompt;
+        do {
+            if (tries == 1)
+                prompt = String.format("Please enter a number between %d and %d (inclusive): ",lower,upper);
+            else
+                prompt = String.format("Please reenter a valid number between %d and %d (inclusive): ",lower,upper);
+            writer.println(prompt);
+            writer.println(RRA.ACK);
+            i = nextInt();
+            tries++;
+        } while (i>upper || i < lower);
+
+        return i;
     }
 
     public int UserInputOptions(int start, int stop,String prompt,String reprompt){
-        return 0;
+        int i;
+        int tries = 1;
+        String p;
+        do {
+            if (tries ==1)
+                p = prompt;
+            else
+                p = reprompt;
+            writer.println(p);
+            i = nextInt();
+        } while (i> stop || i < start);
+        return i;
     }
     public String getBookingID(){
-        return null;
+        String prompt = "Please enter your booking ID String: ";
+        System.out.println(prompt);
+        String ans = nextLine();
+        return ans;
     }
     public void println(String s) {
-
+        writer.println(s);
     }
     public void print(String s){
-
+        writer.print(s);
     }
 }

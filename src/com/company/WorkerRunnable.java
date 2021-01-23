@@ -31,58 +31,40 @@ public class WorkerRunnable implements Runnable {
             e.printStackTrace();
         }
 
-        try {
-            InputStream input  = clientSocket.getInputStream();
-            InputStreamReader reader = new InputStreamReader(input);
-            OutputStream output = clientSocket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
 
-            String welcome_msg = String.format("Welcome User %s to MOLIBMA 2.0", userID).toString();
-            while (true) {
+        String welcome_msg = String.format("Welcome User %s to MOLIBMA 2.0", userID);
 
-                writer.println(welcome_msg);
+        while (true) {
 
-                //print the menu
-                this.printMenu(writer);
-                writer.println("Choose a valid option: ");
-                this.sendACK(writer);
+            utils.println(welcome_msg);
 
+            //print the menu
+            printMenu(utils);
+            sendACK(utils);
 
-                //get the data they want
-                char character;
-                StringBuilder data = new StringBuilder();
+            //get the data they want
+            int choice = utils.UserInputOptions(1, 6, "Please choose an option: ",
+                    "Invalid options!\nPlease choose a valid option: ");
 
-                while ((character = (char) reader.read()) != '\n') {
-                    data.append((char) character);
-                }
-                if (data.length() == 2 && data.charAt(0) == '.')
+            long time = System.currentTimeMillis();
+            System.out.println("[Thread " + id + "]: Received this from client: " + choice +" at time "+time);
+
+            switch (choice) {
+                case 1:
+                    f.queryAvailability(utils);
                     break;
-                System.out.println("[Thread " + id + "]: Received this from client: " + data);
-                long time = System.currentTimeMillis();
-
-                Integer choice = Integer.valueOf(String.valueOf(data));
-                switch (choice) {
-                    case 1:
-                        f.queryAvailability(utils);
-                        break;
-                    case 2:
-                        f.book(userID,utils);
-                        break;
-                }
-                writer.println("The current time is: "+time);
-                writer.println(".");
-
+                case 2:
+                    f.book(userID,utils);
+                    break;
             }
-            output.close();
-            input.close();
-        } catch (IOException e) {
-            //report exception somewhere.
-            e.printStackTrace();
+
+
         }
+
     }
 
 
-    private void printMenu(PrintWriter writer) {
+    private void printMenu(Utils utils) {
         String[] opts = {"Main Menu:",
                 "\t1. Query a facility",
                 "\t2. Book a facility",
@@ -92,11 +74,11 @@ public class WorkerRunnable implements Runnable {
                 "\t6. TBC 2"
         };
         for (String opt : opts) {
-            writer.println(opt);
+            utils.println(opt);
         }
     }
 
-    private void sendACK(PrintWriter writer) {
-        writer.println(".");
+    private void sendACK(Utils utils) {
+        utils.println(RRA.ACK);
     }
 }

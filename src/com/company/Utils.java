@@ -6,4 +6,6 @@ public interface Utils {
     String getBookingID();
     void println(String s) ;
     void print(String s);
+
+    String nextLine();
 }
