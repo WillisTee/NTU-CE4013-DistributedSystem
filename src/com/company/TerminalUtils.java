@@ -1,9 +1,12 @@
 package com.company;
+
 import java.util.Scanner;
 
-public class utils {
+public class TerminalUtils implements Utils {
     public static Scanner s = new Scanner(System.in);
-    public static int checkUserIntInput(int lower, int upper ) {
+
+
+    public int checkUserIntInput(int lower, int upper ) {
         /**
          * This functions return an int value inclusive of upper and lower bound from user
          */
@@ -22,7 +25,7 @@ public class utils {
         return i;
     }
 
-    public static int UserInputOptions(int start, int stop,String prompt,String reprompt) {
+    public int UserInputOptions(int start, int stop,String prompt,String reprompt) {
         int i;
         int tries = 1;
         String p;
@@ -37,11 +40,19 @@ public class utils {
         return i;
     }
 
-    public static String getBookingID(){
+    public String getBookingID(){
         String prompt = "Please enter your booking ID String: ";
         System.out.println(prompt);
         s.nextLine();                      //clear stuff
         String ans = s.nextLine();         //
         return ans;
+    }
+
+    public void println(String s) {
+        System.out.println(s);
+    }
+
+    public void print(String s) {
+        System.out.print(s);
     }
 }

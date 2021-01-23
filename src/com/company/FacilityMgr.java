@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class FacilityMgr {
     private static FacilityMgr single_instance = null;
     public HashMap<String, Facility> FacilityRecords;
-
     //I will make this a singleton class
     private FacilityMgr(){
         this.FacilityRecords = new HashMap<String, Facility>();
@@ -34,20 +33,19 @@ public class FacilityMgr {
         if (this.FacilityRecords.containsKey(facil))
             return this.FacilityRecords.get(facil);
         else
-            System.out.println("No such facil");
             return null;
     }
 
-    public Facility getUserToChooseFacil() {
+    public Facility getUserToChooseFacil(Utils utils) {
         /**
          * This function get the user to choose one of the available facilities
          * And return that facility reference to the caller
          */
-        System.out.println("Currently these are the available facilities for booking: ");
+        utils.println("Currently these are the available facilities for booking: ");
         int count = 1;
         HashMap<Integer,String> temp = new HashMap<Integer,String>();
         for (String i : this.FacilityRecords.keySet()) {
-            System.out.println("\t"+count+". "+i);
+            utils.println("\t"+count+". "+i);
             temp.put(count,i);
             count++;
         }

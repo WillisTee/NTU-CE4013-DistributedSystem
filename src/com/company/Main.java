@@ -5,9 +5,8 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
 	// write your code here
-
+        Utils utils = new TerminalUtils();
         FacilityMgr Neki = FacilityMgr.getInstance();
-
         String  userID = UUID.randomUUID().toString();
         while (true) {
             boolean keep_alive = true;
@@ -16,7 +15,7 @@ public class Main {
             while (keep_alive) {
                 //choose the facility
 
-                Facility f = Neki.getUserToChooseFacil();
+                Facility f = Neki.getUserToChooseFacil(utils);
 
                 //print the facil menu
                 Main.printFacilMenu();
@@ -26,17 +25,17 @@ public class Main {
 
                 switch (chosen_option) {
                     case 1:
-                        f.queryAvailability();
+                        f.queryAvailability(utils);
                         break;
                     case 2:
-                        f.book(userID);
+                        f.book(userID, utils);
                         break;
                     case 3:
                         String bookingID = utils.getBookingID();
-                        f.changeBooking(bookingID);
+                        f.changeBooking(bookingID,utils);
                         break;
                     case 4:
-                        f.showRecords();
+                        f.showRecords(utils);
                         break;
                     default:
                         keep_alive=false;
