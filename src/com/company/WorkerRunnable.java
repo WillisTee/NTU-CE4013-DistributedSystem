@@ -23,7 +23,7 @@ public class WorkerRunnable implements Runnable {
 
         FacilityMgr Neki = FacilityMgr.getInstance();
         String  userID = UUID.randomUUID().toString();
-        Facility f = Neki.getFacility("pornhub");
+
         Utils utils = null;
         try {
             utils = new SocketUtils(clientSocket);
@@ -38,9 +38,11 @@ public class WorkerRunnable implements Runnable {
 
             utils.println(welcome_msg);
 
+            //choose facility
+            Facility f = Neki.getUserToChooseFacil(utils);
+
             //print the menu
             printMenu(utils);
-            sendACK(utils);
 
             //get the data they want
             int choice = utils.UserInputOptions(1, 6, "Please choose an option: ",

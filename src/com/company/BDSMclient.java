@@ -13,8 +13,8 @@ public class BDSMclient {
 
         try (Socket socket = new Socket(hostname, port)) {
 
-            Utils utils = new SocketUtils(socket);          //comm to server
-            Scanner sc = new Scanner(System.in);            //comm to user
+            Utils utils = new SocketUtils(socket);                  //comm to server
+            Scanner sc = new Scanner(System.in);                    //comm to user
 
             String s = "Welcome to the system. Type some shit";     //welcome to user
             System.out.println(s);
@@ -32,7 +32,7 @@ public class BDSMclient {
                     else
                         System.out.println(server_msg);
                 }
-                System.out.println("Reply to server: ");
+                //System.out.println("Reply to server: ");
                 String choice = sc.nextLine();
                 utils.println(choice);
                 if (choice.equals("Quit"))

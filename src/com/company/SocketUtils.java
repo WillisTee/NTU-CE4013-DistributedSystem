@@ -18,17 +18,20 @@ public class SocketUtils implements Utils {
     public String nextLine() {
         char character = 0;
         StringBuilder data = new StringBuilder();
-        while (true) {
-            try {
-                character = (char) reader.read();
-                if ( character == '\n' || character == '\r') break;
-                data.append(character);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String s;
+        do {
+            while (true) {
+                try {
+                    character = (char) reader.read();
+                    if (character == '\n' || character == '\r') break;
+                    data.append(character);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        }
-        String s = data.toString();
+            }
+            s = data.toString();
+        } while (s.equals("") || s.equals("\r") || s.equals("\n"));
         return s;
     }
     
@@ -72,7 +75,9 @@ public class SocketUtils implements Utils {
             else
                 p = reprompt;
             writer.println(p);
+            writer.println(RRA.ACK);
             i = nextInt();
+            tries++;
         } while (i> stop || i < start);
         return i;
     }
