@@ -20,11 +20,11 @@ public class Facility {
         /**
          * Facility class requires a name and an ID (just for safety checking)
          * Each instance keep track of its availability, which is a 7 x 24 array of int
-         * 0 means available not ID means not available
+         * 0 means available 1 means not available
          */
 
         this.name = name;
-        this.ID =ID;
+        this.ID =ID;                                         //until now i Still dont know what this is for
         this.availability = new int[7][24];
         this.Record = new HashMap<String, Booking>();
         this.lastModified = System.currentTimeMillis();
@@ -36,7 +36,6 @@ public class Facility {
         /**
          * Check if a single time slot is available
          */
-
         if (this.availability[date][time] == 0)
             return true;
         else return false;
@@ -58,6 +57,13 @@ public class Facility {
         return this.lastModified;
     }
 
+    private boolean checkForClash(DayOfWeek date,int startTime, int endTime){
+        for(int i= startTime; i<=endTime;i++) {
+            if (this.availability[date.getValue()-1][i] == 1)
+                return true;
+        }
+        return false;
+    }
 
     public void queryAvailability(Utils utils) {
         /**
@@ -115,56 +121,59 @@ public class Facility {
             utils.println("No such booking here.");
         }
         else {
-            //If there is, clear the old booking
+            //get the details of the old Booking
             Booking b = this.Record.get(bookingID);
+            DayOfWeek oldDate = b.date;
             int oldStartTime = b.startTime;
             int oldEndTime = b.endTime;
-            this.clearAvailability(b.date,oldStartTime,oldEndTime);
-            boolean rebook = true; // in case of any error, we need to rebook this thing
+
+            //clear the old booking
+            this.clearAvailability(oldDate,oldStartTime,oldEndTime);
+
+            // in case of any error when we try to book the new booking, we need to rebook this thing
+            //default to true -- so if new booking is feasible, set it to false
+            boolean rebook = true;
 
             // can the booking be advanced/delayed ?
             utils.println("Current booking is from "+oldStartTime+" to "+oldEndTime);
             utils.println("Please input the offset for booking ID: "+bookingID);
             int offset = utils.checkUserIntInput(-24,24);
 
-            //check bound
+            //check bound first, then check clash (because clash assume it is within bound of 7x24 array)
             if (oldStartTime+offset < 0 || oldEndTime+offset > 23)
                 utils.println("Such change cannot be made as it exceeds the day boundary...Return to Main Page");
-            else if (this.checkForClash(b.date,oldStartTime+offset,oldStartTime+offset)) {
+            else if (this.checkForClash(oldDate,oldStartTime+offset,oldStartTime+offset)) {
                 utils.println("There is a clash with another booking");
             }
             else {
-                //try to create a booking a
+                //try to create a new booking
+                DayOfWeek newDate = b.date;             //it is still the same date, but put here for clarity
                 int newStartTime = oldStartTime+offset;
                 int newEndTime = oldEndTime+offset;
 
-                this.setAvailability(b.date,newStartTime,newEndTime);
+                //change the availability array
+                this.setAvailability(newDate,newStartTime,newEndTime);
 
                 //change the Booking Record
                 b.startTime = newStartTime;
                 b.endTime = newEndTime;
-                //change Record
+
+                //booking is successful
                 rebook = false;
+
                 //set last Modified
                 this.lastModified = System.currentTimeMillis();
             }
 
             if (rebook)
-                this.clearAvailability(b.date,oldStartTime,oldEndTime);
+                this.setAvailability(oldDate,oldStartTime,oldEndTime);
         }
     }
-    private boolean checkForClash(DayOfWeek date,int startTime, int endTime){
-        for(int i= startTime; i<=endTime;i++) {
-            if (this.availability[date.getValue()-1][i] == 1)
-                return true;
-        }
-        return false;
-    }
+
 
     public void showRecords(Utils utils) {
         /**
          * This show all the current booking ID with their start and end time
-         * TODO: should we add an user field to this booking ID? IDK man
          */
 
         for (String i :this.Record.keySet()) {
@@ -172,7 +181,4 @@ public class Facility {
             utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
         }
     }
-
-
-
 }
