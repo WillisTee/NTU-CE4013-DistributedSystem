@@ -28,7 +28,7 @@ public class Main {
                         f.queryAvailability(utils);
                         break;
                     case 2:
-                        f.book(userID, utils);
+                        f.book(utils);
                         break;
                     case 3:
                         String bookingID = utils.getBookingID();

@@ -2,6 +2,7 @@ package com.company;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * The facility class that has availability array (7x24) and Record (track bookingID:Booking)
@@ -89,7 +90,7 @@ public class Facility {
 
     }
 
-    public void book(String UUID, Utils utils){
+    public void book( Utils utils){
         /**
          * Front end to print the facility to the user
          */
@@ -101,11 +102,18 @@ public class Facility {
         int startTime = utils.checkUserIntInput(0,23);
         utils.println("For the end time: ");
         int endTime = utils.checkUserIntInput(0,23);
-        this.setAvailability(date,startTime, endTime);
-        this.Record.put(UUID,new Booking(UUID,date,startTime,endTime));
-        queryAvailability(utils);
-        //set last Modified
-        this.lastModified = System.currentTimeMillis();
+        if (this.checkForClash(date,startTime,endTime)) {
+            utils.println("There is a clash with another booking");
+        }
+        else {
+            this.setAvailability(date, startTime, endTime);
+            String bookingID = UUID.randomUUID().toString();
+            this.Record.put(bookingID, new Booking(bookingID, date, startTime, endTime));
+            queryAvailability(utils);
+            utils.println("Your booking is successful. Booking ID is "+bookingID);
+            //set last Modified
+            this.lastModified = System.currentTimeMillis();
+        }
     }
 
 

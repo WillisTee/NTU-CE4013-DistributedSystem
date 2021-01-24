@@ -15,13 +15,15 @@ public class FacilityMgr {
         this.FacilityRecords = new HashMap<String, Facility>();
 
         //create facil
-        Facility pornhub = new Facility("vlxx",0);
-        Facility swimming = new Facility("swimming-pool",1);
-        Facility QUIT = null;
+        Facility[] FacilityArray = new Facility[] {
+                                     new Facility("pornhub",0),
+                                     new Facility("swimming-pool",1),
+                                     new Facility("library",2),
+                                };
         //register them in Mgr
-        this.addFacility(pornhub.name, pornhub);
-        this.addFacility(swimming.name,swimming);
-        this.addFacility("~Choose this option to terminate program~",QUIT);
+        for (Facility f: FacilityArray)
+            this.addFacility(f.name,f);
+        this.addFacility("~Choose this option to terminate program~",null);   //this null option is here for client to terminate program
     }
 
     public static FacilityMgr getInstance() {
@@ -53,7 +55,11 @@ public class FacilityMgr {
          */
         utils.println("Currently these are the available facilities for booking:");
         int count = 1;
+
+        //keep track of the index of the (later) alphabetically ordered facility
         HashMap<Integer,String> temp = new HashMap<Integer,String>();
+
+        //sort the facil name by alphabetical order
         ArrayList<String> sortedKeys =  new ArrayList<String>(this.FacilityRecords.keySet());
         Collections.sort(sortedKeys);
         for (String i : sortedKeys) {
@@ -64,8 +70,6 @@ public class FacilityMgr {
         int choice = utils.checkUserIntInput(1, count - 1);            //count was ++ on the last iter of the for loop
         Facility facility = this.FacilityRecords.get(temp.get(choice));
         return facility;
-
-
     }
 
 }

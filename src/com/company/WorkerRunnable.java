@@ -26,7 +26,7 @@ public class WorkerRunnable implements Runnable {
         System.out.println("[Thread "+id+ "]: ready to serve");
 
         FacilityMgr Neki = FacilityMgr.getInstance();
-        String  userID = UUID.randomUUID().toString();
+        String  userID = "Fuck face";
 
         Utils utils = null;
         try {
@@ -63,7 +63,7 @@ public class WorkerRunnable implements Runnable {
 
                     break;
                 case 2:
-                    f.book(userID,utils);
+                    f.book(utils);
                     thisThreadLastModified = System.currentTimeMillis();
                     break;
                 case 3:
@@ -140,11 +140,11 @@ public class WorkerRunnable implements Runnable {
 
     private void printFacilMenu(Utils utils) {
         String[] opts = {"Main Menu:",
-                "\t1. Query a facility",
-                "\t2. Book a facility",
+                "\t1. Query this facility",
+                "\t2. Book this facility",
                 "\t3. Change a booking",
-                "\t4. Monitor a facility",
-                "\t5. TBC 1",
+                "\t4. Monitor this facility",
+                "\t5. Show current booking",
                 "\t6. TBC 2"
         };
         for (String opt : opts) {
