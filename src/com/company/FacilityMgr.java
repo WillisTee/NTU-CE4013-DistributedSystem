@@ -11,10 +11,14 @@ public class FacilityMgr {
     //I will make this a singleton class
     private FacilityMgr(){
         this.FacilityRecords = new HashMap<String, Facility>();
+
+        //create facil
         Facility pornhub = new Facility("vlxx",0);
-        Facility swimming = new Facility("swimming pool",1);
-        this.addFacility("pornhub",pornhub);
-        this.addFacility("swimming-pool",swimming);
+        Facility swimming = new Facility("swimming-pool",1);
+
+        //register them in Mgr
+        this.addFacility(pornhub.name, pornhub);
+        this.addFacility(swimming.name,swimming);
     }
 
     public static FacilityMgr getInstance() {

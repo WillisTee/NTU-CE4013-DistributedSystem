@@ -175,9 +175,4 @@ public class Facility {
 
 
 
-    public void monitorSlot(int duration) {
-        //TODO: HOW?
-
-
-    }
 }
