@@ -1,8 +1,6 @@
 package com.company;
 
-
-
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -45,7 +43,7 @@ public class WorkerRunnable implements Runnable {
             utils.println(welcome_msg);                         //piggy back the input's ACK
 
             //choose facility
-            Facility f = Neki.getUserToChooseFacil(utils);      //user ctrl C to escape at this stage
+            Facility f = Neki.getUserToChooseFacil(utils);      //quit client program happen here
             if (f == null)
                 break;
 

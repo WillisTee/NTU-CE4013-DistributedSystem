@@ -1,6 +1,5 @@
 package com.company;
 
-import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 
@@ -21,8 +20,8 @@ public class Facility {
          * Facility class requires a name and an ID (just for safety checking)
          * Each instance keep track of its availability, which is a 7 x 24 array of int
          * 0 means available 1 means not available
+         * It also keeps a record of which booking it has -- via the Record Hashmap
          */
-
         this.name = name;
         this.ID =ID;                                         //until now i Still dont know what this is for
         this.availability = new int[7][24];

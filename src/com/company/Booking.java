@@ -14,8 +14,4 @@ public class Booking {
         this.startTime=startTime;
         this.endTime = endTime;
     }
-    public static void main(String[] args) throws Exception{
-        for (DayOfWeek c : DayOfWeek.values())
-            System.out.println(c);
-    }
 }
