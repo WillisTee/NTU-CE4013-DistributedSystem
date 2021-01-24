@@ -25,7 +25,7 @@ public class WorkerRunnable implements Runnable {
 
     public void run() {
         int id = numThreads;
-        System.out.println("Thread "+id+ " ready to serve");
+        System.out.println("[Thread "+id+ "]: ready to serve");
 
         FacilityMgr Neki = FacilityMgr.getInstance();
         String  userID = UUID.randomUUID().toString();
@@ -45,7 +45,9 @@ public class WorkerRunnable implements Runnable {
             utils.println(welcome_msg);                         //piggy back the input's ACK
 
             //choose facility
-            Facility f = Neki.getUserToChooseFacil(utils);
+            Facility f = Neki.getUserToChooseFacil(utils);      //user ctrl C to escape at this stage
+            if (f == null)
+                break;
 
             //print the menu
             printFacilMenu(utils);                             //piggy back the input's ACK
@@ -82,6 +84,10 @@ public class WorkerRunnable implements Runnable {
 
 
         }
+        utils.println(RRA.SESSION_TERMINATE);
+        utils.println(RRA.ACK);                     //
+        //clean up this thread
+        System.out.println("[Thread "+id+"]: Finished it job.");
 
     }
     private void monitorFacility(Facility f, Utils utils) {

@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -15,10 +17,11 @@ public class FacilityMgr {
         //create facil
         Facility pornhub = new Facility("vlxx",0);
         Facility swimming = new Facility("swimming-pool",1);
-
+        Facility QUIT = null;
         //register them in Mgr
         this.addFacility(pornhub.name, pornhub);
         this.addFacility(swimming.name,swimming);
+        this.addFacility("~Choose this option to terminate program~",QUIT);
     }
 
     public static FacilityMgr getInstance() {
@@ -48,17 +51,20 @@ public class FacilityMgr {
          * This function get the user to choose one of the available facilities
          * And return that facility reference to the caller
          */
-        utils.println("Currently these are the available facilities for booking: ");
+        utils.println("Currently these are the available facilities for booking:");
         int count = 1;
         HashMap<Integer,String> temp = new HashMap<Integer,String>();
-        for (String i : this.FacilityRecords.keySet()) {
+        ArrayList<String> sortedKeys =  new ArrayList<String>(this.FacilityRecords.keySet());
+        Collections.sort(sortedKeys);
+        for (String i : sortedKeys) {
             utils.println("\t"+count+". "+i);
             temp.put(count,i);
             count++;
         }
-        int choice = utils.checkUserIntInput(1,count-1);            //count was ++ on the last iter of the for loop
+        int choice = utils.checkUserIntInput(1, count - 1);            //count was ++ on the last iter of the for loop
         Facility facility = this.FacilityRecords.get(temp.get(choice));
         return facility;
+
 
     }
 

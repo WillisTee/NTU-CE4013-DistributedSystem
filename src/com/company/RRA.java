@@ -5,6 +5,7 @@ public class RRA {
      * This class provides the constants we need to implement the Reply-Request-Acknowledge Protocol
      */
     public static final String ACK = "ENDMSG";
+    public static final String SESSION_TERMINATE = "SESSTERM";
 
     public static void main(String[] args){
         StringBuilder sb = new StringBuilder();

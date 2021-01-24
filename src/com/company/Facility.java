@@ -142,7 +142,7 @@ public class Facility {
             //check bound first, then check clash (because clash assume it is within bound of 7x24 array)
             if (oldStartTime+offset < 0 || oldEndTime+offset > 23)
                 utils.println("Such change cannot be made as it exceeds the day boundary...Return to Main Page");
-            else if (this.checkForClash(oldDate,oldStartTime+offset,oldStartTime+offset)) {
+            else if (this.checkForClash(oldDate,oldStartTime+offset,oldEndTime+offset)) {
                 utils.println("There is a clash with another booking");
             }
             else {
