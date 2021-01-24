@@ -26,7 +26,7 @@ public class WorkerRunnable implements Runnable {
         System.out.println("[Thread "+id+ "]: ready to serve");
 
         FacilityMgr Neki = FacilityMgr.getInstance();
-        String  userID = "Fuck face";
+
 
         Utils utils = null;
         try {
@@ -35,7 +35,7 @@ public class WorkerRunnable implements Runnable {
             e.printStackTrace();
         }
 
-
+        String userID = utils.nextLine();
         String welcome_msg = String.format("Welcome User %s to MOLIBMA 2.0", userID);
 
         while (true) {
@@ -60,10 +60,9 @@ public class WorkerRunnable implements Runnable {
             switch (choice) {
                 case 1:
                     f.queryAvailability(utils);
-
                     break;
                 case 2:
-                    f.book(utils);
+                    f.book(userID,utils);
                     thisThreadLastModified = System.currentTimeMillis();
                     break;
                 case 3:
@@ -75,7 +74,7 @@ public class WorkerRunnable implements Runnable {
                     monitorFacility(f,utils);
                     break;
                 case 5:
-                    f.showRecords(utils);
+                    f.showRecords(userID, utils);
                     break;
 
             }

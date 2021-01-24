@@ -7,11 +7,13 @@ public class Booking {
     public DayOfWeek date;
     public int startTime;
     public int endTime;
+    public String username;
 
-    public Booking(String id,DayOfWeek date, int startTime, int endTime) {
+    public Booking(String id,DayOfWeek date, int startTime, int endTime,String username) {
         this.ID= id;
         this.date = date;
         this.startTime=startTime;
         this.endTime = endTime;
+        this.username = username;
     }
 }

@@ -90,7 +90,7 @@ public class Facility {
 
     }
 
-    public void book( Utils utils){
+    public void book(String username, Utils utils){
         /**
          * Front end to print the facility to the user
          */
@@ -108,7 +108,7 @@ public class Facility {
         else {
             this.setAvailability(date, startTime, endTime);
             String bookingID = UUID.randomUUID().toString();
-            this.Record.put(bookingID, new Booking(bookingID, date, startTime, endTime));
+            this.Record.put(bookingID, new Booking(bookingID, date, startTime, endTime,username));
             queryAvailability(utils);
             utils.println("Your booking is successful. Booking ID is "+bookingID);
             //set last Modified
@@ -178,14 +178,17 @@ public class Facility {
     }
 
 
-    public void showRecords(Utils utils) {
+    public void showRecords(String username,Utils utils) {
         /**
-         * This show all the current booking ID with their start and end time
+         * This show all the current booking ID of the user with their start and end time
          */
-
+        utils.println("For user: "+ username);
         for (String i :this.Record.keySet()) {
             Booking b = this.Record.get(i);
-            utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
+            if (b.username.equals(username))
+                utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
+            else
+                utils.println("Another user has booked this facility date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
         }
     }
 }
