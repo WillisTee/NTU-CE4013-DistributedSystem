@@ -35,11 +35,25 @@ public class Main {
                         f.book(userID, utils);
                         break;
                     case 3:
+                        f.showRecords(userID,utils);
                         String bookingID = utils.getBookingID();
                         f.changeBooking(bookingID, utils);
                         break;
+                    case 4:
+                        f.showRecords(userID,utils);
+                        break;
                     case 5:
                         f.showRecords(userID,utils);
+                        String cancelID = utils.getBookingID();
+                        f.cancelBooking(cancelID, utils);
+                        break;
+                    case 6:
+                        f.showRecords(userID,utils);
+                        String extendID = utils.getBookingID();
+                        f.extendBooking(extendID, utils);
+                        break;
+                    default:
+                        utils.println("Invalid option, please choose again.");
                         break;
                 }
 
@@ -52,9 +66,9 @@ public class Main {
                 "\t1. Query a facility",
                 "\t2. Book a facility",
                 "\t3. Change a booking",
-                "\t4. Monitor a facility",
-                "\t5. TBC 1",
-                "\t6. TBC 2"
+                "\t4. Show records",
+                "\t5. Cancel booking",
+                "\t6. Extend booking"
         };
         //print the menu
         for (String opt : opts) {
