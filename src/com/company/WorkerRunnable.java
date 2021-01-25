@@ -11,13 +11,11 @@ public class WorkerRunnable implements Runnable {
     private static final long POLLING_DURATION = 10;  //seconds
 
     protected Socket clientSocket = null;
-    protected String serverText   = null;
     public static int numThreads = 0;
     public long thisThreadLastModified;
 
-    public WorkerRunnable(Socket clientSocket, String serverText) {
+    public WorkerRunnable(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        this.serverText   = serverText;
         numThreads++;
     }
 

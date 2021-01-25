@@ -188,7 +188,7 @@ public class Facility {
             if (b.username.equals(username))
                 utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
             else
-                utils.println("Another user has booked this facility date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
+                utils.println("Another user has booked this facility on date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
         }
     }
 }

@@ -32,7 +32,6 @@ public class FacilityMgr {
         return single_instance;
     }
 
-
     private void addFacility(String name, Facility facility){
         this.FacilityRecords.put(name,facility);
     }
