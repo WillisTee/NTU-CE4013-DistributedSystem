@@ -19,11 +19,15 @@ public class BDSMclient {
             Utils utils = new SocketUtils(socket);                  //comm to server
             Scanner sc = new Scanner(System.in);                    //comm to user
 
-            String s = "Welcome to the system. Type some shit";     //welcome to user
+            String s = "Welcome to the system. Type a name that we can call you: ";     //welcome to user
             System.out.println(s);
+            String userID = sc.nextLine();
 
+            //send the user name to the server
+            utils.println(userID);
+            boolean session_alive = true;
+            while (session_alive) {
 
-            while (true) {
 
 
                 //The server gonna dump some welcome message
@@ -32,14 +36,16 @@ public class BDSMclient {
                     server_msg = utils.nextLine();
                     if (server_msg.equals(RRA.ACK))
                         break;
+                    else if (server_msg.equals(RRA.SESSION_TERMINATE))
+                        session_alive = false;
                     else
                         System.out.println(server_msg);
                 }
-                //System.out.println("Reply to server: ");
-                String choice = sc.nextLine();
-                utils.println(choice);
-                if (choice.equals("Quit"))
-                    break;
+                if (session_alive) {
+                    //System.out.println("Reply to server: ");
+                    String choice = sc.nextLine();
+                    utils.println(choice);
+                }
             }
 
         } catch (UnknownHostException ex) {

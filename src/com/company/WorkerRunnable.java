@@ -1,8 +1,6 @@
 package com.company;
 
-
-
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -13,22 +11,20 @@ public class WorkerRunnable implements Runnable {
     private static final long POLLING_DURATION = 10;  //seconds
 
     protected Socket clientSocket = null;
-    protected String serverText   = null;
     public static int numThreads = 0;
     public long thisThreadLastModified;
 
-    public WorkerRunnable(Socket clientSocket, String serverText) {
+    public WorkerRunnable(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        this.serverText   = serverText;
         numThreads++;
     }
 
     public void run() {
         int id = numThreads;
-        System.out.println("Thread "+id+ " ready to serve");
+        System.out.println("[Thread "+id+ "]: ready to serve");
 
         FacilityMgr Neki = FacilityMgr.getInstance();
-        String  userID = UUID.randomUUID().toString();
+
 
         Utils utils = null;
         try {
@@ -37,7 +33,7 @@ public class WorkerRunnable implements Runnable {
             e.printStackTrace();
         }
 
-
+        String userID = utils.nextLine();
         String welcome_msg = String.format("Welcome User %s to MOLIBMA 2.0", userID);
 
         while (true) {
@@ -45,7 +41,9 @@ public class WorkerRunnable implements Runnable {
             utils.println(welcome_msg);                         //piggy back the input's ACK
 
             //choose facility
-            Facility f = Neki.getUserToChooseFacil(utils);
+            Facility f = Neki.getUserToChooseFacil(utils);      //quit client program happen here
+            if (f == null)
+                break;
 
             //print the menu
             printFacilMenu(utils);                             //piggy back the input's ACK
@@ -60,7 +58,6 @@ public class WorkerRunnable implements Runnable {
             switch (choice) {
                 case 1:
                     f.queryAvailability(utils);
-
                     break;
                 case 2:
                     f.book(userID,utils);
@@ -75,13 +72,17 @@ public class WorkerRunnable implements Runnable {
                     monitorFacility(f,utils);
                     break;
                 case 5:
-                    f.showRecords(utils);
+                    f.showRecords(userID, utils);
                     break;
 
             }
 
 
         }
+        utils.println(RRA.SESSION_TERMINATE);
+        utils.println(RRA.ACK);                     //
+        //clean up this thread
+        System.out.println("[Thread "+id+"]: Finished it job.");
 
     }
     private void monitorFacility(Facility f, Utils utils) {
@@ -136,11 +137,11 @@ public class WorkerRunnable implements Runnable {
 
     private void printFacilMenu(Utils utils) {
         String[] opts = {"Main Menu:",
-                "\t1. Query a facility",
-                "\t2. Book a facility",
+                "\t1. Query this facility",
+                "\t2. Book this facility",
                 "\t3. Change a booking",
-                "\t4. Monitor a facility",
-                "\t5. TBC 1",
+                "\t4. Monitor this facility",
+                "\t5. Show current booking",
                 "\t6. TBC 2"
         };
         for (String opt : opts) {

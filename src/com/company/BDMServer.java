@@ -36,8 +36,7 @@ public class BDMServer implements Runnable {
                         "Error accepting client connection", e);
             }
             new Thread(
-                    (Runnable) new WorkerRunnable(
-                            clientSocket, "Multithreaded Server")
+                    (Runnable) new WorkerRunnable(clientSocket)
             ).start();
         }
         System.out.println("Server Stopped.") ;
@@ -69,13 +68,13 @@ public class BDMServer implements Runnable {
         BDMServer server = new BDMServer(9000);
         new Thread((Runnable) server).start();
 
-        try {
+/*        try {
             Thread.sleep(200 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("Stopping Server");
-        server.stop();
+        server.stop();*/
     }
 
 }

@@ -2,12 +2,15 @@ package com.company;
 
 import java.util.UUID;
 
+
 public class Main {
+
     public static void main(String[] args) {
 	// write your code here
         Utils utils = new TerminalUtils();
         FacilityMgr Neki = FacilityMgr.getInstance();
-        String  userID = UUID.randomUUID().toString();
+        utils.println("Welcome! Please give us a name to address you: ");
+        String userID = utils.nextLine();
         while (true) {
             boolean keep_alive = true;
             String welcom_msg = String.format("Welcome User %s to MOLIBMA 2.0", userID).toString();
@@ -23,7 +26,8 @@ public class Main {
                 int chosen_option = utils.UserInputOptions(1, 6, "Please choose an option: ",
                         "Invalid options!\nPlease choose a valid option: ");
 
-                switch (chosen_option) {
+                switch (chosen_option)
+                {
                     case 1:
                         f.queryAvailability(utils);
                         break;
@@ -32,16 +36,12 @@ public class Main {
                         break;
                     case 3:
                         String bookingID = utils.getBookingID();
-                        f.changeBooking(bookingID,utils);
+                        f.changeBooking(bookingID, utils);
                         break;
-                    case 4:
-                        f.showRecords(utils);
+                    case 5:
+                        f.showRecords(userID,utils);
                         break;
-                    default:
-                        keep_alive=false;
-                        return;
                 }
-                userID = UUID.randomUUID().toString();
 
             }
         }

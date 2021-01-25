@@ -1,8 +1,8 @@
 package com.company;
 
-import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * The facility class that has availability array (7x24) and Record (track bookingID:Booking)
@@ -21,8 +21,8 @@ public class Facility {
          * Facility class requires a name and an ID (just for safety checking)
          * Each instance keep track of its availability, which is a 7 x 24 array of int
          * 0 means available 1 means not available
+         * It also keeps a record of which booking it has -- via the Record Hashmap
          */
-
         this.name = name;
         this.ID =ID;                                         //until now i Still dont know what this is for
         this.availability = new int[7][24];
@@ -90,7 +90,7 @@ public class Facility {
 
     }
 
-    public void book(String UUID, Utils utils){
+    public void book(String username, Utils utils){
         /**
          * Front end to print the facility to the user
          */
@@ -102,11 +102,18 @@ public class Facility {
         int startTime = utils.checkUserIntInput(0,23);
         utils.println("For the end time: ");
         int endTime = utils.checkUserIntInput(0,23);
-        this.setAvailability(date,startTime, endTime);
-        this.Record.put(UUID,new Booking(UUID,date,startTime,endTime));
-        queryAvailability(utils);
-        //set last Modified
-        this.lastModified = System.currentTimeMillis();
+        if (this.checkForClash(date,startTime,endTime)) {
+            utils.println("There is a clash with another booking");
+        }
+        else {
+            this.setAvailability(date, startTime, endTime);
+            String bookingID = UUID.randomUUID().toString();
+            this.Record.put(bookingID, new Booking(bookingID, date, startTime, endTime,username));
+            queryAvailability(utils);
+            utils.println("Your booking is successful. Booking ID is "+bookingID);
+            //set last Modified
+            this.lastModified = System.currentTimeMillis();
+        }
     }
 
 
@@ -142,7 +149,7 @@ public class Facility {
             //check bound first, then check clash (because clash assume it is within bound of 7x24 array)
             if (oldStartTime+offset < 0 || oldEndTime+offset > 23)
                 utils.println("Such change cannot be made as it exceeds the day boundary...Return to Main Page");
-            else if (this.checkForClash(oldDate,oldStartTime+offset,oldStartTime+offset)) {
+            else if (this.checkForClash(oldDate,oldStartTime+offset,oldEndTime+offset)) {
                 utils.println("There is a clash with another booking");
             }
             else {
@@ -171,14 +178,17 @@ public class Facility {
     }
 
 
-    public void showRecords(Utils utils) {
+    public void showRecords(String username,Utils utils) {
         /**
-         * This show all the current booking ID with their start and end time
+         * This show all the current booking ID of the user with their start and end time
          */
-
+        utils.println("For user: "+ username);
         for (String i :this.Record.keySet()) {
             Booking b = this.Record.get(i);
-            utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
+            if (b.username.equals(username))
+                utils.println("Booking ID:" + i + ", date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
+            else
+                utils.println("Another user has booked this facility on date: "+b.date.toString()+", from "+b.startTime+" to "+b.endTime);
         }
     }
 }
